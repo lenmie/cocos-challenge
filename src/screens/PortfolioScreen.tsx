@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
+import { Text, FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { useGetPortfolioQuery } from '../../store/api/api';
 import { Portfolio } from '../../domain/models/portfolio';
@@ -31,16 +31,20 @@ export const PortfolioScreen = () => {
     return <Text>Error fetching portfolio</Text>;
   }
 
-  console.log('Portfolio data:', portfolio);
-  
   return (
     <FlatList
-      data={portfolio}
-      //keyExtractor={(item) => item.id.toString()}
+      data={portfolio?.map(
+        (item) =>
+          ({
+            ...item,
+            marketValue: item.quantity * item.last_price,
+            gain: item.quantity * (item.last_price - item.avg_cost_price),
+            totalReturn:
+              (item.last_price / item.avg_cost_price - 1) * 100,
+          } as Portfolio)
+      )}
       renderItem={renderItem}
-      contentContainerStyle={{ padding: 16 }}
-      ListEmptyComponent={<Text>No portfolio data available</Text>}
-      showsVerticalScrollIndicator={false}
+      keyExtractor={(item) => item.id.toString()}
     />
   );
 };

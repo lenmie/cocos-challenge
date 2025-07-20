@@ -18,6 +18,7 @@ export const InstrumentsScreen = () => {
       <Text>{item.ticker}</Text>
       <Text>{item.name}</Text>
       <Text>{item.lastPrice}</Text>
+      <Text>{item.return.toFixed(2)}%</Text>
     </ItemContainer>
   );
 
@@ -31,12 +32,15 @@ export const InstrumentsScreen = () => {
 
   return (
     <FlatList
-      data={instruments}
-      keyExtractor={(item) => item.id.toString()}
+      data={instruments?.map(
+        (instrument) =>
+          ({
+            ...instrument,
+            return: (instrument.last_price / instrument.close_price - 1) * 100,
+          } as Instrument)
+      )}
       renderItem={renderItem}
-      contentContainerStyle={{ padding: 16 }}
-      ListEmptyComponent={<Text>No instruments available</Text>}
-      showsVerticalScrollIndicator={false}
+      keyExtractor={(item) => item.id.toString()}
     />
   );
 };

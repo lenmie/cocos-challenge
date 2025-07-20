@@ -1,17 +1,47 @@
 import React, { useState } from 'react';
 import {
-  View,
-  TextInput,
   FlatList,
   Text,
-  StyleSheet,
   TouchableOpacity,
   Modal,
   Button,
 } from 'react-native';
+import styled from 'styled-components/native';
 import { useSearchInstrumentsQuery, useCreateOrderMutation } from '../../store/api/api';
 import { Instrument } from '../../domain/models/instrument';
 import { OrderDTO, OrderSide, OrderType } from '../../store/api/dtos/order.dto';
+
+const Container = styled.View`
+  flex: 1;
+  padding: 16px;
+`;
+
+const Input = styled.TextInput`
+  height: 40px;
+  border-color: gray;
+  border-width: 1px;
+  margin-bottom: 16px;
+  padding-horizontal: 8px;
+`;
+
+const ItemContainer = styled.View`
+  padding: 16px;
+  border-bottom-width: 1px;
+  border-bottom-color: #ccc;
+`;
+
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+const ModalTitle = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
 
 export const SearchScreen = () => {
   const [query, setQuery] = useState('');
@@ -45,17 +75,16 @@ export const SearchScreen = () => {
 
   const renderItem = ({ item }: { item: Instrument }) => (
     <TouchableOpacity onPress={() => setSelectedInstrument(item)}>
-      <View style={styles.itemContainer}>
+      <ItemContainer>
         <Text>{item.ticker}</Text>
         <Text>{item.name}</Text>
-      </View>
+      </ItemContainer>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
+    <Container>
+      <Input
         placeholder="Search by ticker"
         value={query}
         onChangeText={setQuery}
@@ -73,8 +102,8 @@ export const SearchScreen = () => {
         onRequestClose={() => setSelectedInstrument(null)}
         animationType="slide"
       >
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Create Order</Text>
+        <ModalContainer>
+          <ModalTitle>Create Order</ModalTitle>
           <Text>Side</Text>
           <Button title="Buy" onPress={() => setSide('BUY')} />
           <Button title="Sell" onPress={() => setSide('SELL')} />
@@ -83,8 +112,7 @@ export const SearchScreen = () => {
           <Button title="Market" onPress={() => setType('MARKET')} />
           <Button title="Limit" onPress={() => setType('LIMIT')} />
 
-          <TextInput
-            style={styles.input}
+          <Input
             placeholder="Quantity"
             value={quantity}
             onChangeText={setQuantity}
@@ -92,8 +120,7 @@ export const SearchScreen = () => {
           />
 
           {type === 'LIMIT' && (
-            <TextInput
-              style={styles.input}
+            <Input
               placeholder="Price"
               value={price}
               onChangeText={setPrice}
@@ -113,38 +140,8 @@ export const SearchScreen = () => {
           {createOrderError && <Text>Error creating order</Text>}
 
           <Button title="Close" onPress={() => setSelectedInstrument(null)} />
-        </View>
+        </ModalContainer>
       </Modal>
-    </View>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-  },
-  itemContainer: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-});
