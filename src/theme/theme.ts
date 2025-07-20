@@ -23,11 +23,3 @@ export const theme = {
     quaternary: colors.tertiary,
   },
 };
-
-export type DarkTheme = typeof theme.dark;
-export type LightTheme = typeof theme.light;
-export type Theme = DarkTheme | LightTheme;
-
-declare module 'styled-components' {
-  export interface DefaultTheme extends Theme {}
-}

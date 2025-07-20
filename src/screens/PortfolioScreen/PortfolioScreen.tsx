@@ -1,20 +1,8 @@
 import React from 'react';
 import { FlatList, Text } from 'react-native';
-import styled from 'styled-components/native';
 import { useGetPortfolioQuery } from '../../store/api/api';
 import { Portfolio } from '../../domain/models/portfolio';
-import { Theme } from '../../theme/theme';
-
-const ItemContainer = styled.View`
-  padding: 16px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }: { theme: Theme }) => theme.tertiary};
-  background-color: ${({ theme }: { theme: Theme }) => theme.background};
-`;
-
-const TickerText = styled.Text`
-  color: ${({ theme }: { theme: Theme }) => theme.text};
-`;
+import { ItemContainer, TickerText } from './PortfolioScreen.styles';
 
 export const PortfolioScreen = () => {
   const { data: portfolio, isLoading, error } = useGetPortfolioQuery();

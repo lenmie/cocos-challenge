@@ -1,28 +1,33 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { InstrumentsScreen, OrdersScreen, PortfolioScreen, SettingsScreen } from '../screens';
+import {
+  InstrumentsScreen,
+  OrdersScreen,
+  PortfolioScreen,
+  SettingsScreen,
+} from '../screens';
 import { useTheme } from '../theme/ThemeProvider';
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  const { theme } = useTheme();
+  const { theme: currentTheme } = useTheme();
 
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: theme.background,
+            backgroundColor: currentTheme.background,
           },
-          tabBarActiveTintColor: theme.primary,
-          tabBarInactiveTintColor: theme.text,
+          tabBarActiveTintColor: currentTheme.primary,
+          tabBarInactiveTintColor: currentTheme.text,
           headerStyle: {
-            backgroundColor: theme.background,
+            backgroundColor: currentTheme.background,
           },
           headerTitleStyle: {
-            color: theme.text,
+            color: currentTheme.text,
           },
         }}
       >

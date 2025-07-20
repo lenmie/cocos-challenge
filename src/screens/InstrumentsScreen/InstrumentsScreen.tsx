@@ -1,20 +1,8 @@
 import React from 'react';
 import { Text, FlatList } from 'react-native';
-import styled from 'styled-components/native';
 import { useGetInstrumentsQuery } from '../../store/api/api';
 import { Instrument } from '../../domain/models/instrument';
-import { Theme } from '../../theme/theme';
-
-const ItemContainer = styled.View`
-  padding: 16px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }: {theme: Theme}) => theme.tertiary};
-  background-color: ${({ theme }: {theme: Theme}) => theme.background};
-`;
-
-const InstrumentText = styled.Text`
-  color: ${({ theme }: {theme: Theme}) => theme.text};
-`;
+import { ItemContainer, InstrumentText } from './InstrumentsScreen.styles';
 
 export const InstrumentsScreen = () => {
   const { data: instruments, isLoading, error } = useGetInstrumentsQuery();

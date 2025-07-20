@@ -5,8 +5,8 @@ import AppNavigator from './navigation/AppNavigator';
 import Reactotron from 'reactotron-react-native';
 import { ThemeProvider } from './theme/ThemeProvider';
 
-Reactotron.configure() 
-  .useReactNative() 
+Reactotron.configure({})
+  .useReactNative()
   .connect(); 
 
 const App = () => (

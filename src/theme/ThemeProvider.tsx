@@ -4,8 +4,10 @@ import { theme as appTheme } from './theme';
 
 type ThemeName = 'light' | 'dark';
 
+import { DefaultTheme } from 'styled-components/native';
+
 interface ThemeContextType {
-  theme: ThemeName;
+  theme: DefaultTheme;
   toggleTheme: () => void;
 }
 
@@ -14,16 +16,16 @@ const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<ThemeName>('light');
+  const [themeName, setThemeName] = useState<ThemeName>('light');
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    setThemeName(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  const currentTheme = appTheme[theme];
+  const currentTheme = appTheme[themeName];
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: currentTheme, toggleTheme }}>
       <StyledThemeProvider theme={currentTheme}>
         {children}
       </StyledThemeProvider>

@@ -2,5 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "typeRoots": ["./src/theme", "./node_modules/@types"],
+  "include": ["./src/theme/styled.d.ts", "**/*.ts", "**/*.tsx"]
 }
