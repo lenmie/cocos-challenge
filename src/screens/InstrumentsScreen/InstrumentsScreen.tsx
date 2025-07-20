@@ -3,6 +3,7 @@ import { Text, FlatList } from 'react-native';
 import { useGetInstrumentsQuery } from '../../store/api/api';
 import { Instrument } from '../../domain/models/instrument';
 import { ItemContainer, InstrumentText } from './InstrumentsScreen.styles';
+import { CommonScreenContainer } from '../../components';
 
 export const InstrumentsScreen = () => {
   const { data: instruments, isLoading, error } = useGetInstrumentsQuery();
@@ -24,13 +25,15 @@ export const InstrumentsScreen = () => {
   }
 
   return (
-    <FlatList
-      data={instruments}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      contentContainerStyle={{ padding: 16 }}
-      ListEmptyComponent={<Text>No instruments available</Text>}
-      showsVerticalScrollIndicator={false}
-    />
+    <CommonScreenContainer>
+      <FlatList
+        data={instruments}
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderItem}
+        contentContainerStyle={{ padding: 16 }}
+        ListEmptyComponent={<Text>No instruments available</Text>}
+        showsVerticalScrollIndicator={false}
+      />
+    </CommonScreenContainer>
   );
 };

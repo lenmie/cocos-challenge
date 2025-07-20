@@ -1,35 +1,44 @@
 import React, { useState } from 'react';
+import { FlatList, Text, TouchableOpacity, Modal, Button } from 'react-native';
 import {
-  FlatList,
-  Text,
-  TouchableOpacity,
-  Modal,
-  Button,
-} from 'react-native';
-import { useSearchInstrumentsQuery, useCreateOrderMutation } from '../../store/api/api';
+  useSearchInstrumentsQuery,
+  useCreateOrderMutation,
+} from '../../store/api/api';
 import { Instrument } from '../../domain/models/instrument';
 import { OrderDTO, OrderSide, OrderType } from '../../store/api/dtos/order.dto';
 import {
-  Container,
   Input,
   ItemContainer,
   ModalContainer,
   ModalTitle,
   OrderText,
 } from './OrdersScreen.styles';
+import { CommonScreenContainer } from '../../components';
 
 export const OrdersScreen = () => {
   const [query, setQuery] = useState('');
-  const [selectedInstrument, setSelectedInstrument] = useState<Instrument | null>(null);
+  const [selectedInstrument, setSelectedInstrument] =
+    useState<Instrument | null>(null);
   const [side, setSide] = useState<OrderSide>('BUY');
   const [type, setType] = useState<OrderType>('MARKET');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
 
-  const { data: instruments, isLoading, error } = useSearchInstrumentsQuery(query, {
+  const {
+    data: instruments,
+    isLoading,
+    error,
+  } = useSearchInstrumentsQuery(query, {
     skip: !query,
   });
-  const [createOrder, { data: orderResponse, isLoading: isCreatingOrder, error: createOrderError }] = useCreateOrderMutation();
+  const [
+    createOrder,
+    {
+      data: orderResponse,
+      isLoading: isCreatingOrder,
+      error: createOrderError,
+    },
+  ] = useCreateOrderMutation();
 
   const handleCreateOrder = () => {
     if (!selectedInstrument) return;
@@ -58,7 +67,7 @@ export const OrdersScreen = () => {
   );
 
   return (
-    <Container>
+    <CommonScreenContainer>
       <Input
         placeholder="Search by ticker"
         value={query}
@@ -68,7 +77,7 @@ export const OrdersScreen = () => {
       {error && <Text>Error searching instruments</Text>}
       <FlatList
         data={instruments}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={{ padding: 16 }}
         ListEmptyComponent={<Text>No instruments found</Text>}
@@ -106,7 +115,11 @@ export const OrdersScreen = () => {
             />
           )}
 
-          <Button title="Create Order" onPress={handleCreateOrder} disabled={isCreatingOrder} />
+          <Button
+            title="Create Order"
+            onPress={handleCreateOrder}
+            disabled={isCreatingOrder}
+          />
 
           {orderResponse && (
             <>
@@ -120,6 +133,6 @@ export const OrdersScreen = () => {
           <Button title="Close" onPress={() => setSelectedInstrument(null)} />
         </ModalContainer>
       </Modal>
-    </Container>
+    </CommonScreenContainer>
   );
 };

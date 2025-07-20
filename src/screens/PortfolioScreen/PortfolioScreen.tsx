@@ -3,6 +3,7 @@ import { FlatList, Text } from 'react-native';
 import { useGetPortfolioQuery } from '../../store/api/api';
 import { Portfolio } from '../../domain/models/portfolio';
 import { ItemContainer, TickerText } from './PortfolioScreen.styles';
+import { CommonScreenContainer } from '../../components';
 
 export const PortfolioScreen = () => {
   const { data: portfolio, isLoading, error } = useGetPortfolioQuery();
@@ -28,13 +29,15 @@ export const PortfolioScreen = () => {
   console.log('Portfolio data:', portfolio);
 
   return (
-    <FlatList
-      data={portfolio}
-      //keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      contentContainerStyle={{ padding: 16 }}
-      ListEmptyComponent={<Text>No portfolio data available</Text>}
-      showsVerticalScrollIndicator={false}
-    />
+    <CommonScreenContainer>
+      <FlatList
+        data={portfolio}
+        //keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        contentContainerStyle={{ padding: 16 }}
+        ListEmptyComponent={<Text>No portfolio data available</Text>}
+        showsVerticalScrollIndicator={false}
+      />
+    </CommonScreenContainer>
   );
 };
