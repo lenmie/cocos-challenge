@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
-import {
-  FlatList,
-  Text,
-  TouchableOpacity,
-  Modal,
-  Button,
-} from 'react-native';
+import { FlatList, Text, TouchableOpacity, Modal, Button } from 'react-native';
 import styled from 'styled-components/native';
-import { useSearchInstrumentsQuery, useCreateOrderMutation } from '../../store/api/api';
+import {
+  useSearchInstrumentsQuery,
+  useCreateOrderMutation,
+} from '../../store/api/api';
 import { Instrument } from '../../domain/models/instrument';
 import { OrderDTO, OrderSide, OrderType } from '../../store/api/dtos/order.dto';
+import { Theme } from '../../theme/theme';
 
 const Container = styled.View`
   flex: 1;
   padding: 16px;
+  background-color: ${({ theme }: { theme: Theme }) => theme.background};
 `;
 
 const Input = styled.TextInput`
   height: 40px;
-  border-color: gray;
+  border-color: ${({ theme }: { theme: Theme }) => theme.tertiary};
   border-width: 1px;
   margin-bottom: 16px;
   padding-horizontal: 8px;
+  color: ${({ theme }: { theme: Theme }) => theme.text};
 `;
 
 const ItemContainer = styled.View`
   padding: 16px;
   border-bottom-width: 1px;
-  border-bottom-color: #ccc;
+  border-bottom-color: ${({ theme }: { theme: Theme }) => theme.tertiary};
 `;
 
 const ModalContainer = styled.View`
@@ -35,26 +35,44 @@ const ModalContainer = styled.View`
   justify-content: center;
   align-items: center;
   padding: 20px;
+  background-color: ${({ theme }: { theme: Theme }) => theme.background};
 `;
 
 const ModalTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: ${({ theme }: { theme: Theme }) => theme.text};
+`;
+
+const OrderText = styled.Text`
+  color: ${({ theme }: { theme: Theme }) => theme.text};
 `;
 
 export const OrdersScreen = () => {
   const [query, setQuery] = useState('');
-  const [selectedInstrument, setSelectedInstrument] = useState<Instrument | null>(null);
+  const [selectedInstrument, setSelectedInstrument] =
+    useState<Instrument | null>(null);
   const [side, setSide] = useState<OrderSide>('BUY');
   const [type, setType] = useState<OrderType>('MARKET');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
 
-  const { data: instruments, isLoading, error } = useSearchInstrumentsQuery(query, {
+  const {
+    data: instruments,
+    isLoading,
+    error,
+  } = useSearchInstrumentsQuery(query, {
     skip: !query,
   });
-  const [createOrder, { data: orderResponse, isLoading: isCreatingOrder, error: createOrderError }] = useCreateOrderMutation();
+  const [
+    createOrder,
+    {
+      data: orderResponse,
+      isLoading: isCreatingOrder,
+      error: createOrderError,
+    },
+  ] = useCreateOrderMutation();
 
   const handleCreateOrder = () => {
     if (!selectedInstrument) return;
@@ -76,8 +94,8 @@ export const OrdersScreen = () => {
   const renderItem = ({ item }: { item: Instrument }) => (
     <TouchableOpacity onPress={() => setSelectedInstrument(item)}>
       <ItemContainer>
-        <Text>{item.ticker}</Text>
-        <Text>{item.name}</Text>
+        <OrderText>{item.ticker}</OrderText>
+        <OrderText>{item.name}</OrderText>
       </ItemContainer>
     </TouchableOpacity>
   );
@@ -93,7 +111,7 @@ export const OrdersScreen = () => {
       {error && <Text>Error searching instruments</Text>}
       <FlatList
         data={instruments}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={{ padding: 16 }}
         ListEmptyComponent={<Text>No instruments found</Text>}
@@ -131,12 +149,16 @@ export const OrdersScreen = () => {
             />
           )}
 
-          <Button title="Create Order" onPress={handleCreateOrder} disabled={isCreatingOrder} />
+          <Button
+            title="Create Order"
+            onPress={handleCreateOrder}
+            disabled={isCreatingOrder}
+          />
 
           {orderResponse && (
             <>
-              <Text>Order ID: {orderResponse.id}</Text>
-              <Text>Status: {orderResponse.status}</Text>
+              <OrderText>Order ID: {orderResponse.id}</OrderText>
+              <OrderText>Status: {orderResponse.status}</OrderText>
             </>
           )}
 

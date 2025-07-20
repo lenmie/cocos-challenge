@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import AppNavigator from './navigation/AppNavigator';
 import Reactotron from 'reactotron-react-native';
+import { ThemeProvider } from './theme/ThemeProvider';
 
 Reactotron.configure() 
   .useReactNative() 
@@ -10,7 +11,9 @@ Reactotron.configure()
 
 const App = () => (
   <Provider store={store}>
-    <AppNavigator />
+    <ThemeProvider>
+      <AppNavigator />
+    </ThemeProvider>
   </Provider>
 );
 

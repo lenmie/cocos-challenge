@@ -3,11 +3,17 @@ import { FlatList, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { useGetPortfolioQuery } from '../../store/api/api';
 import { Portfolio } from '../../domain/models/portfolio';
+import { Theme } from '../../theme/theme';
 
 const ItemContainer = styled.View`
   padding: 16px;
   border-bottom-width: 1px;
-  border-bottom-color: #ccc;
+  border-bottom-color: ${({ theme }: { theme: Theme }) => theme.tertiary};
+  background-color: ${({ theme }: { theme: Theme }) => theme.background};
+`;
+
+const TickerText = styled.Text`
+  color: ${({ theme }: { theme: Theme }) => theme.text};
 `;
 
 export const PortfolioScreen = () => {
@@ -15,11 +21,11 @@ export const PortfolioScreen = () => {
 
   const renderItem = ({ item }: { item: Portfolio }) => (
     <ItemContainer>
-      <Text>{item.ticker}</Text>
-      <Text>{item.quantity}</Text>
-      <Text>{item.marketValue.toFixed(2)}</Text>
-      <Text>{item.gain.toFixed(2)}</Text>
-      <Text>{item.totalReturn.toFixed(2)}%</Text>
+      <TickerText>{item.ticker}</TickerText>
+      <TickerText>{item.quantity}</TickerText>
+      <TickerText>{item.marketValue.toFixed(2)}</TickerText>
+      <TickerText>{item.gain.toFixed(2)}</TickerText>
+      <TickerText>{item.totalReturn.toFixed(2)}%</TickerText>
     </ItemContainer>
   );
 
@@ -32,7 +38,7 @@ export const PortfolioScreen = () => {
   }
 
   console.log('Portfolio data:', portfolio);
-  
+
   return (
     <FlatList
       data={portfolio}
