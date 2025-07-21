@@ -26,6 +26,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
 }) => {
   const [side, setSide] = useState<OrderSide>('BUY');
   const [type, setType] = useState<OrderType>('MARKET');
+  const [transactionType, setTransactionType] = useState<'SHARES' | 'MONEY'>(
+    'SHARES',
+  );
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
 
@@ -52,11 +55,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const handleCreateOrder = () => {
     if (!selectedInstrument) return;
 
+    const quantityValue =
+      transactionType === 'MONEY'
+        ? Math.floor(parseInt(quantity) / selectedInstrument.lastPrice)
+        : parseInt(quantity);
+
     const order: OrderDTO = {
       instrument_id: selectedInstrument.id,
       side,
       type,
-      quantity: parseInt(quantity, 10),
+      quantity: quantityValue,
     };
 
     if (type === 'LIMIT') {
@@ -97,9 +105,24 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           </SwitchContainer>
         </ModalRowContainer>
 
+        <ModalRowContainer>
+          <CommonText>Transaction Type</CommonText>
+          <SwitchContainer>
+            <CommonText>
+              {transactionType === 'SHARES' ? 'By Quantity' : 'By Money'}
+            </CommonText>
+            <Switch
+              value={transactionType === 'SHARES'}
+              onValueChange={value =>
+                setTransactionType(value ? 'SHARES' : 'MONEY')
+              }
+            />
+          </SwitchContainer>
+        </ModalRowContainer>
+
         <ModalInputContainer>
           <Input
-            placeholder="Quantity"
+            placeholder={transactionType === 'SHARES' ? 'Quantity' : '$'}
             value={quantity}
             onChangeText={setQuantity}
             keyboardType="numeric"

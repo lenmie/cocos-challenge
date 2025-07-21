@@ -3,6 +3,8 @@ import { DefaultTheme } from 'styled-components/native';
 
 export const Input = styled.TextInput`
   height: 60px;
+  margin-horizontal: 32px;
+  margin-top: 16px;
   border-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
   border-width: 2px;
   margin-bottom: 16px;
@@ -52,7 +54,7 @@ export const ModalRowContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 80%;
+  width: 90%;
   height: 50px;
   padding-horizontal: 16px;
 `;
