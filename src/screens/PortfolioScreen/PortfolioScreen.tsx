@@ -34,8 +34,6 @@ export const PortfolioScreen = () => {
     );
   }
 
-  console.log('Portfolio data:', portfolio);
-
   return (
     <CommonScreenContainer>
       <FlatList

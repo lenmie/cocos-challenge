@@ -31,9 +31,8 @@ export const InstrumentsScreen = () => {
         data={instruments}
         keyExtractor={item => item.id.toString()}
         renderItem={InstrumentItem}
-        //contentContainerStyle={{ padding: 16 }}
         ItemSeparatorComponent={() => <ItemSeparator />}
-        ListEmptyComponent={<Text>No instruments available</Text>}
+        ListEmptyComponent={<CommonText>No instruments available</CommonText>}
         showsVerticalScrollIndicator={false}
       />
     </CommonScreenContainer>

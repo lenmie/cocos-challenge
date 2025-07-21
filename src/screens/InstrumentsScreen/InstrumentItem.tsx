@@ -48,7 +48,7 @@ export const InstrumentItem = ({ item }: { item: Instrument }) => (
     </LeftContainer>
 
     <RightContainer>
-      <LastPriceText>{item.lastPrice}</LastPriceText>
+      <LastPriceText>{`$${item.lastPrice}`}</LastPriceText>
     </RightContainer>
   </ItemContainer>
 );
