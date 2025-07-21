@@ -1,9 +1,9 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
+import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { useGetPortfolioQuery } from '../../store/api/api';
 import { Portfolio } from '../../domain/models/portfolio';
 import { ItemContainer, TickerText } from './PortfolioScreen.styles';
-import { CommonScreenContainer } from '../../components';
+import { CommonScreenContainer, CommonText } from '../../components';
 
 export const PortfolioScreen = () => {
   const { data: portfolio, isLoading, error } = useGetPortfolioQuery();
@@ -19,11 +19,19 @@ export const PortfolioScreen = () => {
   );
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <CommonScreenContainer>
+        <ActivityIndicator size={'large'} />
+      </CommonScreenContainer>
+    );
   }
 
   if (error) {
-    return <Text>Error fetching portfolio</Text>;
+    return (
+      <CommonScreenContainer>
+        <CommonText>Error fetching portfolio</CommonText>
+      </CommonScreenContainer>
+    );
   }
 
   console.log('Portfolio data:', portfolio);
