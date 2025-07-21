@@ -2,21 +2,12 @@ import React from 'react';
 import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { useGetPortfolioQuery } from '../../store/api/api';
 import { Portfolio } from '../../domain/models/portfolio';
-import { ItemContainer, TickerText } from './PortfolioScreen.styles';
+import { ItemSeparator } from './PortfolioScreen.styles';
 import { CommonScreenContainer, CommonText } from '../../components';
+import { PortfolioItem } from './PortfolioItem';
 
 export const PortfolioScreen = () => {
   const { data: portfolio, isLoading, error } = useGetPortfolioQuery();
-
-  const renderItem = ({ item }: { item: Portfolio }) => (
-    <ItemContainer>
-      <TickerText>{item.ticker}</TickerText>
-      <TickerText>{item.quantity}</TickerText>
-      <TickerText>{item.marketValue.toFixed(2)}</TickerText>
-      <TickerText>{item.gain.toFixed(2)}</TickerText>
-      <TickerText>{item.totalReturn.toFixed(2)}%</TickerText>
-    </ItemContainer>
-  );
 
   if (isLoading) {
     return (
@@ -38,9 +29,10 @@ export const PortfolioScreen = () => {
     <CommonScreenContainer>
       <FlatList
         data={portfolio}
-        //keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={{ padding: 16 }}
+        // entities ids sometimes are duplicated, thus using index as key
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={PortfolioItem}
+        ItemSeparatorComponent={() => <ItemSeparator />}
         ListEmptyComponent={<Text>No portfolio data available</Text>}
         showsVerticalScrollIndicator={false}
       />

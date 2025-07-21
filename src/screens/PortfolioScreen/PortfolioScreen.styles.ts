@@ -11,3 +11,8 @@ export const ItemContainer = styled.View`
 export const TickerText = styled.Text`
   color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
 `;
+
+export const ItemSeparator = styled.View`
+  height: 2px;
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
+`;

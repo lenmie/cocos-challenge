@@ -1,7 +1,8 @@
 export interface PortfolioDTO {
-  id: number;
+  instrument_id: number;
   ticker: string;
   quantity: number;
-  avg_cost_price: number;
   last_price: number;
+  close_price: number;
+  avg_cost_price: number;
 }
