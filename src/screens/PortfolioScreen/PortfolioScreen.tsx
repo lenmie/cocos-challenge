@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, Text } from 'react-native';
 import { useGetPortfolioQuery } from '../../store/api/api';
-import { Portfolio } from '../../domain/models/portfolio';
 import { ItemSeparator } from './PortfolioScreen.styles';
 import { CommonScreenContainer, CommonText } from '../../components';
 import { PortfolioItem } from './PortfolioItem';

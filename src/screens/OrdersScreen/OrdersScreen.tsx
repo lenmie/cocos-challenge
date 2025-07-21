@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { FlatList, Text, TouchableOpacity, Modal, Button } from 'react-native';
+import {
+  FlatList,
+  Text,
+  TouchableOpacity,
+  Modal,
+  Button,
+  ActivityIndicator,
+} from 'react-native';
 import {
   useSearchInstrumentsQuery,
   useCreateOrderMutation,
@@ -13,7 +20,8 @@ import {
   ModalTitle,
   OrderText,
 } from './OrdersScreen.styles';
-import { CommonScreenContainer } from '../../components';
+import { CommonScreenContainer, CommonText } from '../../components';
+import { OrderItem } from './OrderItem';
 
 export const OrdersScreen = () => {
   const [query, setQuery] = useState('');
@@ -57,14 +65,18 @@ export const OrdersScreen = () => {
     createOrder(order);
   };
 
-  const renderItem = ({ item }: { item: Instrument }) => (
-    <TouchableOpacity onPress={() => setSelectedInstrument(item)}>
-      <ItemContainer>
-        <OrderText>{item.ticker}</OrderText>
-        <OrderText>{item.name}</OrderText>
-      </ItemContainer>
-    </TouchableOpacity>
-  );
+  if (isLoading && !query)
+    return (
+      <CommonScreenContainer>
+        <ActivityIndicator size="large" />
+      </CommonScreenContainer>
+    );
+  if (error)
+    return (
+      <CommonScreenContainer>
+        <CommonText>Error searching instruments</CommonText>
+      </CommonScreenContainer>
+    );
 
   return (
     <CommonScreenContainer>
@@ -73,14 +85,18 @@ export const OrdersScreen = () => {
         value={query}
         onChangeText={setQuery}
       />
-      {isLoading && <Text>Loading...</Text>}
-      {error && <Text>Error searching instruments</Text>}
       <FlatList
         data={instruments}
         keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <OrderItem
+            item={item}
+            setSelectedInstrument={setSelectedInstrument}
+          />
+        )}
         contentContainerStyle={{ padding: 16 }}
-        ListEmptyComponent={<Text>No instruments found</Text>}
+        ItemSeparatorComponent={() => <ItemContainer />}
+        ListEmptyComponent={<CommonText>No instruments found</CommonText>}
         showsVerticalScrollIndicator={false}
       />
 

@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 import { DefaultTheme } from 'styled-components/native';
 
 export const Input = styled.TextInput`
-  height: 40px;
-  border-color: ${({ theme }: { theme: DefaultTheme }) => theme.tertiary};
-  border-width: 1px;
+  height: 60px;
+  border-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
+  border-width: 2px;
   margin-bottom: 16px;
+  border-radius: 8px;
   padding-horizontal: 8px;
   color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
 `;
@@ -34,4 +35,9 @@ export const ModalTitle = styled.Text`
 
 export const OrderText = styled.Text`
   color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
+`;
+
+export const ItemSeparator = styled.View`
+  height: 2px;
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
 `;
