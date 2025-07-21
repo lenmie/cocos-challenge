@@ -18,6 +18,15 @@ export const ItemContainer = styled.View`
     theme.tertiary};
 `;
 
+export const OrderText = styled.Text`
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
+`;
+
+export const ItemSeparator = styled.View`
+  height: 2px;
+  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
+`;
+
 export const ModalContainer = styled.View`
   flex: 1;
   justify-content: center;
@@ -26,18 +35,31 @@ export const ModalContainer = styled.View`
   background-color: ${({ theme }: { theme: DefaultTheme }) => theme.background};
 `;
 
+export const ModalInputContainer = styled.View`
+  width: 100%;
+  margin-bottom: 16px;
+`;
+
+export const SwitchContainer = styled.View`
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 80%;
+`;
+
+export const ModalRowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  height: 50px;
+  padding-horizontal: 16px;
+`;
+
 export const ModalTitle = styled.Text`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
   color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
-`;
-
-export const OrderText = styled.Text`
-  color: ${({ theme }: { theme: DefaultTheme }) => theme.text};
-`;
-
-export const ItemSeparator = styled.View`
-  height: 2px;
-  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary};
 `;
